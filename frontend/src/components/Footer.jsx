@@ -11,10 +11,7 @@ function Footer() {
           <span className="text-xl font-bold">JobBoard</span>
           <span className="text-sm">Find your dream job with us.</span>
         </div>
-        <div className="flex flex-col md:flex-row gap-6 mt-4 md:mt-0 text-sm">
-          <a href="/" className="hover:text-blue-400 transition">Home</a>
         
-        </div>
         <div className="flex gap-4 mt-4 md:mt-0 text-gray-200">
           <a href="#" className="hover:text-blue-400 transition">
             <Twitter size={20} />

@@ -13,9 +13,7 @@ function Footer() {
         </div>
         <div className="flex flex-col md:flex-row gap-6 mt-4 md:mt-0 text-sm">
           <a href="/" className="hover:text-blue-400 transition">Home</a>
-          <a href="/jobs" className="hover:text-blue-400 transition">Jobs</a>
-          <a href="/upload" className="hover:text-blue-400 transition">Post a Job</a>
-          <a href="/contact" className="hover:text-blue-400 transition">Contact</a>
+        
         </div>
         <div className="flex gap-4 mt-4 md:mt-0 text-gray-200">
           <a href="#" className="hover:text-blue-400 transition">

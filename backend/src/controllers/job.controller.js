@@ -1,8 +1,8 @@
+
 import Job from "../models/job.model.js";
 
-
 export const jobUpload = async (req, res) => {
-  const { title, company, category, location, description } = req.body;
+  const { title, company, category, location, jobType, experience, description } = req.body;
 
   try {
     if (!title || !company || !category || !location || !description) {
@@ -14,6 +14,8 @@ export const jobUpload = async (req, res) => {
       company,
       category,
       location,
+      jobType,
+      experience,
       description,
     });
 
@@ -31,73 +33,48 @@ export const jobUpload = async (req, res) => {
 };
 
 
+export const getAllJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count: jobs.length, jobs });
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 
 export const getJobs = async (req, res) => {
   try {
-    const { query, category, location, jobType, experience } = req.query;
+    const { category, location, jobType, experience } = req.query;
 
     const filter = {};
-
-    if (query) {
-      filter.$or = [
-        { title: { $regex: query, $options: "i" } },
-        { company: { $regex: query, $options: "i" } },
-      ];
-    }
     if (category) filter.category = category;
     if (location) filter.location = location;
     if (jobType) filter.jobType = jobType;
     if (experience) filter.experience = experience;
 
     const jobs = await Job.find(filter).sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      count: jobs.length,
-      jobs,
-    });
+    res.status(200).json({ success: true, count: jobs.length, jobs });
   } catch (error) {
-    console.error("Error fetching jobs:", error);
+    console.error("Error fetching filtered jobs:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-
-export const getAllJobs = async (req, res) => {
-  try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      count: jobs.length,
-      jobs,
-    });
-  } catch (error) {
-    console.error("Error fetching jobs:", error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
 
 export const searchJobs = async (req, res) => {
   try {
     const { query } = req.query;
-
-    if (!query) {
-      return res.status(400).json({ success: false, message: "Query is required" });
-    }
+    if (!query) return res.status(400).json({ success: false, message: "Query is required" });
 
     const jobs = await Job.find({
       $or: [
         { title: { $regex: query, $options: "i" } },
-        { company: { $regex: query, $options: "i" } }
-      ]
+        { company: { $regex: query, $options: "i" } },
+      ],
     }).sort({ createdAt: -1 });
 
-    res.status(200).json({
-      success: true,
-      count: jobs.length,
-      jobs,
-    });
+    res.status(200).json({ success: true, count: jobs.length, jobs });
   } catch (error) {
     console.error("Error searching jobs:", error);
     res.status(500).json({ success: false, message: "Server error" });

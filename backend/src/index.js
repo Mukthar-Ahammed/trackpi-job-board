@@ -11,14 +11,15 @@ const app=express();
 app.use(express.json())
 
 app.use(
-
-    cors({
-        origin:[
-            "http://localhost:5173"
-        ],
-        Credential:true
-    })
+  cors({
+    origin: [
+      "http://localhost:5173", 
+      "https://trackpi-job-board.vercel.app" 
+    ],
+    credentials: true
+  })
 )
+
 
 
 app.use('/api/jobs',jobRoutes)
